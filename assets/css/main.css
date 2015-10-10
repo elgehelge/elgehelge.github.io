@@ -1884,6 +1884,12 @@
 		text-transform: uppercase;
 	}
 
+	header img {
+		width: 10em;
+		border-radius: 10em;
+		margin-top: 2em;
+	}
+
 	header h1 + p {
 		margin-top: -1em;
 	}
@@ -1907,11 +1913,11 @@
 		text-align: center;
 	}
 
-		header.major h1, header.major h2, header.major h3, header.major h4, header.major h5, header.major h6 {
+		header.major h1, header.major h2, header.major h3, header.major h4, header.major h5, header.major h6, header.major img {
 			position: relative;
 		}
 
-			header.major h1:after, header.major h2:after, header.major h3:after, header.major h4:after, header.major h5:after, header.major h6:after {
+			header.major img:after, header.major h2:after, header.major h3:after, header.major h4:after, header.major h5:after, header.major h6:after {
 				background: #dddddd;
 				content: '';
 				display: block;
@@ -2647,7 +2653,7 @@
 				width: calc(100% - 10px);
 			}
 
-		.main .goto-next {
+		.main .goto-next, #header .goto-next {
 			-moz-transition: background-color 0.2s ease-in-out;
 			-webkit-transition: background-color 0.2s ease-in-out;
 			-ms-transition: background-color 0.2s ease-in-out;
@@ -2671,7 +2677,7 @@
 			width: 4em;
 		}
 
-			.main .goto-next:hover {
+			.main #header .goto-next:hover {
 				background-color: rgba(144, 144, 144, 0.15);
 			}
 

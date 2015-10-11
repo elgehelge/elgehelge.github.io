@@ -13,15 +13,91 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<script src="assets/js/d3.v3.min.js"></script>
 	</head>
 	<body>
+<svg id="background-graph" xmlns="http://www.w3.org/2000/svg" viewBox=" 0 0 500 1000" style="position: fixed; opacity: 0.3;">
+</svg>
+
+<script type="text/javascript">
+	function makeRandomNumberBetween(first, last) {
+		return Math.floor((Math.random() * Math.abs(first-last)) + first);
+	}
+	function calcNodeDistance(node1, node2) {
+		return Math.sqrt( Math.pow(Math.abs(node1.x - node2.x), 2) + Math.pow(Math.abs(node1.y - node2.y),2) );
+	}
+	function calcScrollShift(node) {
+		return (1 + node.z / 10) * (-scrollPosition + 50) * 1.2;
+	}
+
+	var CANVAS_HEIGHT = 1000;
+	var CANVAS_WIDTH = 500;
+	var CROSS_SIDES = 100;
+	var NO_NODES = 300;
+	var CONNECTING_DISTANCE = 100;
+
+	var node_data = [];
+	for (i=0; i < NO_NODES; i++) {
+		node_data[i] = {'x': makeRandomNumberBetween(-CROSS_SIDES, CANVAS_WIDTH + CROSS_SIDES),
+						'y': makeRandomNumberBetween(-CROSS_SIDES, CANVAS_HEIGHT + CROSS_SIDES),
+						'z': makeRandomNumberBetween(0, 10)};
+	}
+	var edge_data = [];
+	for (i=0; i<NO_NODES; i++) {
+		for (j=0; j<NO_NODES; j++) {
+			var node_i = node_data[i]
+			var node_j = node_data[j]
+			if (calcNodeDistance(node_i, node_j) < CONNECTING_DISTANCE && node_i.x != node_j.x && node_i.y != node_j.y) {
+				edge_data.push([i,j]);
+			}
+		}
+	}
+
+	var scrollPosition = document.body.scrollTop / (document.body.clientHeight - window.innerHeight) * 100;
+
+	var canvas = d3.select("#background-graph");
+	var nodes = canvas.selectAll("circle")
+						.data(node_data)
+						.enter()
+						.append("circle")
+                       	.attr("cx", function (d) { return d.x; })
+                       	.attr("cy", function (d) { return d.y + calcScrollShift(d); })
+                       	.attr("r", function (d) { return d.z / 10 + 1; })
+                       	.style("fill", "white")
+                       	.style("fill-opacity", function (d) { return (d.z + 5) / 15; })
+	var edges = canvas.selectAll("line")
+						.data(edge_data)
+						.enter()
+						.append("line")
+						.attr("x1", function (d) { return node_data[d[0]].x; })
+						.attr("y1", function (d) { return node_data[d[0]].y + calcScrollShift(node_data[d[0]]); })
+						.attr("x2", function (d) { return node_data[d[1]].x; })
+						.attr("y2", function (d) { return node_data[d[1]].y + calcScrollShift(node_data[d[1]]); })
+						.style("stroke-width", 0.2)
+						.style("stroke", "white");
+
+window.addEventListener("scroll", function() {
+	scrollPosition = document.body.scrollTop / (document.body.clientHeight - window.innerHeight) * 100;
+	nodes.data(node_data)
+                       	.attr("cx", function (d) { return d.x; })
+                       	.attr("cy", function (d) { return d.y + calcScrollShift(d); })
+                       	.attr("r", function (d) { return d.z / 10 + 1; })
+   	edges.data(edge_data)
+						.attr("x1", function (d) { return node_data[d[0]].x; })
+						.attr("y1", function (d) { return node_data[d[0]].y + calcScrollShift(node_data[d[0]]); })
+						.attr("x2", function (d) { return node_data[d[1]].x; })
+						.attr("y2", function (d) { return node_data[d[1]].y + calcScrollShift(node_data[d[1]]); });
+
+});
+
+</script>
 
 		<!-- Header -->
 			<section id="header">
 				<header class="major">
 					<p>My name is</p>
 					<h1>Helge Munk Jacobsen</h1>
-					<p>and this is where I share my code, projects<br/>and knowledge of machine learning.</p>
+					<p>and this is where I share my code, projects and<br/>knowledge about machine learning.</p>
 					<img src="./images/profile.jpg"></img>
 					<p></p>
 					<ul class="icons">
@@ -39,7 +115,6 @@
 			<!-- One -->
 			<section id="one" class="main">
 				<div class="container">
-					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
 					<div class="content">
 						<header class="major">
 							<h2>Who I am</h2>
@@ -63,7 +138,6 @@
 		<!-- Two -->
 			<section id="two" class="main special">
 				<div class="container">
-					<span class="image fit primary"><img src="images/pic03.jpg" alt="" /></span>
 					<div class="content">
 						<header class="major">
 							<h2>Blog</h2>
@@ -76,17 +150,19 @@
 			<!-- Three -->
 			<section id="three" class="main">
 				<div class="container">
-					<span class="image fit primary"><img src="images/pic03.jpg" alt="" /></span>
 					<div class="content">
 						<header class="major">
 							<h2>Projects</h2>
 						</header>
-<h5>My first project</h5>
-						<p><span class="image right"><img src="images/pic05.jpg" alt="" /></span>Fringilla nisl. TODO: Fill in previous projects. Image + short text + link</p>
+
+						<h5>My first project</h5>
+						<p><span class="image right"><img src="images/pic05.jpg" alt="" /></span>TODO: Fill in previous projects. Image + short text + link</p>
 						<div class="clearfix"></div>
-<h5>My first project</h5>
-						<p><span class="image right"><img src="images/pic05.jpg" alt="" /></span>Fringilla nisl. TODO: Fill in previous projects. Image + short text + link</p>
+
+						<h5>My first project</h5>
+						<p><span class="image right"><img src="images/pic05.jpg" alt="" /></span>TODO: Fill in previous projects. Image + short text + link</p>
 						<div class="clearfix"></div>
+
 					</div>
 					<a href="#footer" class="goto-next scrolly">Next</a>
 				</div>
@@ -440,6 +516,5 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
-
 	</body>
 </html>

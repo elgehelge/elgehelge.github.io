@@ -7,6 +7,10 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+	.clearfix {
+		clear: both;
+	}
+
 /* Reset */
 
 	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
@@ -1312,7 +1316,7 @@
 	html {
 		background-color: #313a3d;
 		background-attachment: fixed,						fixed;
-		background-image: url("images/overlay.png"), url("../../images/bg.jpg");
+		background-image: url("../../images/pic02.jpg");
 		background-position: top left,					center center;
 		background-repeat: repeat,						none;
 		background-size: auto,						cover;
@@ -1887,7 +1891,7 @@
 	header img {
 		width: 10em;
 		border-radius: 10em;
-		margin-top: 2em;
+		margin: 2em;
 	}
 
 	header h1 + p {
@@ -2385,6 +2389,18 @@
 		margin: 0 0 2em 0;
 	}
 
+.special ul.double-list {
+	list-style-position: inside;
+	text-align: left;
+}
+
+.double-list li {
+	float: left;
+}
+.double-list li  {
+	width: 50%;
+}
+
 /* Table */
 
 	.table-wrapper {
@@ -2726,9 +2742,10 @@
 				}
 
 			#header header p {
-				color: #ffffff;
+				/*color: #ffffff;*/
+				color: rgba(255, 255, 255, 0.5);
 				font-weight: 700;
-				margin: 1.5em 0 0 0;
+				margin: 0 0 0 0;
 			}
 
 		#header .container {
@@ -2828,8 +2845,8 @@
 		/* Main */
 
 			.main .image.primary {
-				display: block;
-				margin: 0 0 4em 0;
+/*				display: block;
+				margin: 0 0 4em 0;*/
 			}
 
 			.main .container {
@@ -2888,7 +2905,7 @@
 			}
 
 				.main .container .image.primary:first-child {
-					margin: -1.5em 0 2.5em 0;
+/*					margin: -1.5em 0 2.5em 0;*/
 				}
 
 			.main .goto-next {
@@ -3016,7 +3033,7 @@
 			}
 
 				.main .container .image.primary:first-child {
-					margin: -2em 0 2.5em 0;
+/*					margin: -2em 0 2.5em 0;*/
 				}
 
 		/* Footer */

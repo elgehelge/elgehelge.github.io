@@ -2180,7 +2180,7 @@
 	}
 
 		.image:before {
-			background: url("images/overlay.png");
+			/*background: url("images/overlay.png");*/
 			content: '';
 			display: block;
 			height: 100%;
@@ -2195,12 +2195,14 @@
 		}
 
 		.image.left {
+			width: 10em;
 			float: left;
 			margin: 0 1.5em 1em 0;
 			top: 0.25em;
 		}
 
 		.image.right {
+			width: 10em;
 			float: right;
 			margin: 0 0 1em 1.5em;
 			top: 0.25em;

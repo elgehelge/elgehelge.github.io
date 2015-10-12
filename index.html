@@ -16,81 +16,98 @@
 		<script src="assets/js/d3.v3.min.js"></script>
 	</head>
 	<body>
-<svg id="background-graph" xmlns="http://www.w3.org/2000/svg" viewBox=" 0 0 500 800" style="position: fixed; opacity: 0.3;">
-</svg>
 
-<script type="text/javascript">
-	function makeRandomNumberBetween(first, last) {
-		return Math.floor((Math.random() * Math.abs(first-last)) + first);
-	}
-	function calcNodeDistance(node1, node2) {
-		return Math.sqrt( Math.pow(Math.abs(node1.x - node2.x), 2) + Math.pow(Math.abs(node1.y - node2.y),2) );
-	}
-	function calcScrollShift(node) {
-		return (0.2 + node.z / 10) * (-scrollPosition + 50) * 1.2;
-	}
-
-	var CANVAS_HEIGHT = 700;
-	var CANVAS_WIDTH = 500;
-	var CROSS_SIDES = 50;
-	var NO_NODES = 100;
-	var CONNECTING_DISTANCE = 100;
-
-	var node_data = [];
-	for (i=0; i < NO_NODES; i++) {
-		node_data[i] = {'x': makeRandomNumberBetween(-CROSS_SIDES, CANVAS_WIDTH + CROSS_SIDES),
-						'y': makeRandomNumberBetween(-CROSS_SIDES, CANVAS_HEIGHT + CROSS_SIDES),
-						'z': makeRandomNumberBetween(0, 10)};
-	}
-	var edge_data = [];
-	for (i=0; i<NO_NODES; i++) {
-		for (j=0; j<NO_NODES; j++) {
-			var node_i = node_data[i]
-			var node_j = node_data[j]
-			if (calcNodeDistance(node_i, node_j) < CONNECTING_DISTANCE && node_i.x != node_j.x && node_i.y != node_j.y) {
-				edge_data.push([i,j]);
+		<style type="text/css">
+			line {
+				stroke-width: 0.2;
+				stroke: white;
+				stroke-opacity: 0.7;
 			}
-		}
-	}
+			circle {
+				fill: white;
+				fill-opacity: 0.7;
+			}
+		</style>
 
-	var scrollPosition = document.body.scrollTop / (document.body.clientHeight - window.innerHeight) * 100;
+		<svg id="background-graph" xmlns="http://www.w3.org/2000/svg" viewBox=" 0 0 500 800" style="position: fixed; opacity: 0.3;">
+		</svg>
 
-	var canvas = d3.select("#background-graph");
-	var nodes = canvas.selectAll("circle")
-						.data(node_data)
-						.enter()
-						.append("circle")
-                       	.attr("cx", function (d) { return d.x; })
-                       	.attr("cy", function (d) { return d.y + calcScrollShift(d); })
-                       	.attr("r", function (d) { return d.z / 10 + 1; })
-                       	.style("fill", "white")
-                       	.style("fill-opacity", function (d) { return (d.z + 5) / 15; })
-	var edges = canvas.selectAll("line")
-						.data(edge_data)
-						.enter()
-						.append("line")
-						.attr("x1", function (d) { return node_data[d[0]].x; })
-						.attr("y1", function (d) { return node_data[d[0]].y + calcScrollShift(node_data[d[0]]); })
-						.attr("x2", function (d) { return node_data[d[1]].x; })
-						.attr("y2", function (d) { return node_data[d[1]].y + calcScrollShift(node_data[d[1]]); })
-						.style("stroke-width", 0.2)
-						.style("stroke", "white");
+		<script type="text/javascript">
 
-	window.addEventListener("scroll", function() {
-		scrollPosition = document.body.scrollTop / (document.body.clientHeight - window.innerHeight) * 100;
-		nodes.data(node_data)
-	                       	.attr("cx", function (d) { return d.x; })
-	                       	.attr("cy", function (d) { return d.y + calcScrollShift(d); })
-	                       	.attr("r", function (d) { return d.z / 10 + 1; })
-	   	edges.data(edge_data)
-							.attr("x1", function (d) { return node_data[d[0]].x; })
-							.attr("y1", function (d) { return node_data[d[0]].y + calcScrollShift(node_data[d[0]]); })
-							.attr("x2", function (d) { return node_data[d[1]].x; })
-							.attr("y2", function (d) { return node_data[d[1]].y + calcScrollShift(node_data[d[1]]); });
+			var NO_NODES = 100;
+			var CONNECTING_DISTANCE = 100;
 
-});
+			var CANVAS_HEIGHT = 700;
+			var CANVAS_WIDTH = 500;
+			var ACROSS_SIDES = 50;
+			var MIN_SHIFT = 0.5;
+			var SHIFT_SCALE = 2;
+			var scrollPosition = document.body.scrollTop / (document.body.clientHeight - window.innerHeight) * 100;
 
-</script>
+			function makeRandomNumberBetween(lower, higher) {
+				return Math.floor((Math.random() * Math.abs(lower-higher)) + lower);
+			}
+			function calcNodeDistance(node1, node2) {
+				return Math.sqrt( Math.pow(Math.abs(node1.x - node2.x), 2) + Math.pow(Math.abs(node1.y - node2.y),2) );
+			}
+			function calcScrollShift(node) {
+				return (MIN_SHIFT + node.z / 10) * (-scrollPosition + 50) * SHIFT_SCALE;
+			}
+
+			var node_data = [];
+			for (i=0; i < NO_NODES; i++) {
+				node_data[i] = {'x': makeRandomNumberBetween(-ACROSS_SIDES, CANVAS_WIDTH + ACROSS_SIDES),
+								'y': makeRandomNumberBetween(-ACROSS_SIDES, CANVAS_HEIGHT + ACROSS_SIDES),
+								'z': makeRandomNumberBetween(0, 10)};
+			}
+			var edge_data = [];
+			for (i=0; i<NO_NODES; i++) {
+				for (j=0; j<NO_NODES; j++) {
+					var node_i = node_data[i]
+					var node_j = node_data[j]
+					if (calcNodeDistance(node_i, node_j) < CONNECTING_DISTANCE && node_i.x != node_j.x && node_i.y != node_j.y) {
+						edge_data.push([i,j]);
+					}
+				}
+			}
+
+			// Initialize
+			var canvas = d3.select("#background-graph");
+			var nodes = canvas.selectAll("circle")
+								.data(node_data)
+								.enter()
+								.append("circle")
+		                       	.attr("cx", function (d) { return d.x; })
+		                       	.attr("cy", function (d) { return d.y + calcScrollShift(d); })
+		                       	.attr("r", function (d) { return d.z / 10 + 1; })
+			var edges = canvas.selectAll("line")
+								.data(edge_data)
+								.enter()
+								.append("line")
+								.attr("x1", function (d) { return node_data[d[0]].x; })
+								.attr("y1", function (d) { return node_data[d[0]].y + calcScrollShift(node_data[d[0]]); })
+								.attr("x2", function (d) { return node_data[d[1]].x; })
+								.attr("y2", function (d) { return node_data[d[1]].y + calcScrollShift(node_data[d[1]]); })
+
+			function redraw() {
+				nodes.data(node_data)
+			                       	.attr("cx", function (d) { return d.x; })
+			                       	.attr("cy", function (d) { return d.y + calcScrollShift(d); })
+			                       	.attr("r", function (d) { return d.z / 10 + 1; })
+			   	edges.data(edge_data)
+									.attr("x1", function (d) { return node_data[d[0]].x; })
+									.attr("y1", function (d) { return node_data[d[0]].y + calcScrollShift(node_data[d[0]]); })
+									.attr("x2", function (d) { return node_data[d[1]].x; })
+									.attr("y2", function (d) { return node_data[d[1]].y + calcScrollShift(node_data[d[1]]); });
+			}
+
+			// Redraw canvas on scroll
+			window.addEventListener("scroll", function() {
+				scrollPosition = document.body.scrollTop / (document.body.clientHeight - window.innerHeight) * 100;
+				redraw();
+			});
+
+		</script>
 
 		<!-- Header -->
 			<section id="header">
@@ -155,12 +172,8 @@
 							<h2>Projects</h2>
 						</header>
 
-						<h5>My first project</h5>
-						<p><span class="image right"><img src="images/pic05.jpg" alt="" /></span>TODO: Fill in previous projects. Image + short text + link</p>
-						<div class="clearfix"></div>
-
-						<h5>My first project</h5>
-						<p><span class="image right"><img src="images/pic05.jpg" alt="" /></span>TODO: Fill in previous projects. Image + short text + link</p>
+						<h5>Scrollable D3 graph visualization</h5>
+						<p><span class="image right"><img src="images/random_graph.png" alt="" /></span>Needed som cliché background visualizations. So I decided to take a look at the D3 javascript visualization library and create somethink on my own. Check out the <a href="https://cdn.rawgit.com/elgehelge/D3-network-background-graphics/master/scrollable_3d_graph.html">example</a> and get the <a href="https://github.com/elgehelge/D3-network-background-graphics">code</a></p>
 						<div class="clearfix"></div>
 
 					</div>

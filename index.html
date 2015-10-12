@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
-<!--
-	Highlights by HTML5 UP
-	html5up.net | @n33co
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+<!-- ORIGINAL CODE:
+	 Highlights by HTML5 UP
+	 html5up.net | @n33co
+	 Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
 	<head>
@@ -16,7 +16,7 @@
 		<script src="assets/js/d3.v3.min.js"></script>
 	</head>
 	<body>
-<svg id="background-graph" xmlns="http://www.w3.org/2000/svg" viewBox=" 0 0 500 1000" style="position: fixed; opacity: 0.3;">
+<svg id="background-graph" xmlns="http://www.w3.org/2000/svg" viewBox=" 0 0 500 800" style="position: fixed; opacity: 0.3;">
 </svg>
 
 <script type="text/javascript">
@@ -27,13 +27,13 @@
 		return Math.sqrt( Math.pow(Math.abs(node1.x - node2.x), 2) + Math.pow(Math.abs(node1.y - node2.y),2) );
 	}
 	function calcScrollShift(node) {
-		return (1 + node.z / 10) * (-scrollPosition + 50) * 1.2;
+		return (0.2 + node.z / 10) * (-scrollPosition + 50) * 1.2;
 	}
 
-	var CANVAS_HEIGHT = 1000;
+	var CANVAS_HEIGHT = 700;
 	var CANVAS_WIDTH = 500;
-	var CROSS_SIDES = 100;
-	var NO_NODES = 300;
+	var CROSS_SIDES = 50;
+	var NO_NODES = 100;
 	var CONNECTING_DISTANCE = 100;
 
 	var node_data = [];
@@ -76,17 +76,17 @@
 						.style("stroke-width", 0.2)
 						.style("stroke", "white");
 
-window.addEventListener("scroll", function() {
-	scrollPosition = document.body.scrollTop / (document.body.clientHeight - window.innerHeight) * 100;
-	nodes.data(node_data)
-                       	.attr("cx", function (d) { return d.x; })
-                       	.attr("cy", function (d) { return d.y + calcScrollShift(d); })
-                       	.attr("r", function (d) { return d.z / 10 + 1; })
-   	edges.data(edge_data)
-						.attr("x1", function (d) { return node_data[d[0]].x; })
-						.attr("y1", function (d) { return node_data[d[0]].y + calcScrollShift(node_data[d[0]]); })
-						.attr("x2", function (d) { return node_data[d[1]].x; })
-						.attr("y2", function (d) { return node_data[d[1]].y + calcScrollShift(node_data[d[1]]); });
+	window.addEventListener("scroll", function() {
+		scrollPosition = document.body.scrollTop / (document.body.clientHeight - window.innerHeight) * 100;
+		nodes.data(node_data)
+	                       	.attr("cx", function (d) { return d.x; })
+	                       	.attr("cy", function (d) { return d.y + calcScrollShift(d); })
+	                       	.attr("r", function (d) { return d.z / 10 + 1; })
+	   	edges.data(edge_data)
+							.attr("x1", function (d) { return node_data[d[0]].x; })
+							.attr("y1", function (d) { return node_data[d[0]].y + calcScrollShift(node_data[d[0]]); })
+							.attr("x2", function (d) { return node_data[d[1]].x; })
+							.attr("y2", function (d) { return node_data[d[1]].y + calcScrollShift(node_data[d[1]]); });
 
 });
 
@@ -506,7 +506,13 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 						<li><a href="https://www.facebook.com/helgemunkjacobsen" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
 					</ul>
 				</div>
+				<footer>
+					<ul class="copyright">
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li>Background Image: <a href="http://unsplash.com">Unsplash</a></li>
+					</ul>
+				</footer>
 			</section>
+
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>

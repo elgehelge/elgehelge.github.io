@@ -2177,6 +2177,7 @@
 		border: 0;
 		display: inline-block;
 		position: relative;
+	    box-shadow: 3px 3px 10px #999;
 	}
 
 		.image:before {

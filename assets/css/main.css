@@ -1314,12 +1314,12 @@
 /* Basic */
 
 	html {
-		background-color: #313a3d;
+		background-color: #2980b9;
 		background-attachment: fixed,						fixed;
-		background-image: url("../../images/pic01.jpg");
 		background-position: top left,					center center;
 		background-repeat: repeat,						none;
 		background-size: auto,						cover;
+		background: linear-gradient(to bottom, #2980b9 0%, #e74c3c 100%);
 	}
 
 	html.is-loading body *, html.is-loading body *:before, html.is-loading body *:after {
@@ -2240,7 +2240,7 @@
 
 	ul {
 		list-style: disc;
-		margin: 0 0 2em 0;
+		/*margin: 0 0 2em 0;*/
 		padding-left: 1em;
 	}
 

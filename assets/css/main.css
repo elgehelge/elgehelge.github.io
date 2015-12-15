@@ -1473,6 +1473,16 @@
 			overflow-x: auto;
 		}
 
+	p.small {
+	    font-size: 70%;
+    	color: #999;
+    	margin: -0.5em 0 0.5em 0;
+	}
+
+	a.underline {
+		text-decoration: underline;
+	}
+
 	.align-left {
 		text-align: left;
 	}
